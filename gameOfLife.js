@@ -7,7 +7,7 @@ module.exports = {
             for (var j = 0; j < 100; j++) {
                 seed[i][j] = Math.round((Math.random() * 1));
             }
-        };
+        }
 
         return new GameOfLife(seed);
     }
