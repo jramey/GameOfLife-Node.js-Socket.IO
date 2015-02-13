@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Game Of Life</title>
+    <link rel="stylesheet" href="gameOfLife.css">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="jquery-2.0.3.min.js"></script>    
+    <script type ="text/javascript">
+        var socket = io();
+        
+        socket.on('tick', function(data){
+            renderHtml(data);
+        });
+
+        $( document ).ready(function() {
+             $('#refresh').on( "click", function() {
+                socket.emit('refresh', "refresh");
+            });
+        });
+
+        function renderHtml(data) {
+            $("div.tablePlaceHolder").html("");
+            var grid = data;
+            var html = "<table> ";
+
+            for (var i = 0; i < grid.length; i++) {
+                html += "<tr> ";
+                for (var j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j] == 1)
+                        html += "<td class=" + "\"live\"" + "></td> ";
+                    else
+                        html += "<td class=" + "\"dead\"" + "></td> ";
+                }
+
+                html += "</tr> ";
+            }
+
+            html += "</table>";
+
+            $("div.tablePlaceHolder").html(html);
+        }
+    </script>
+</head>
+<body>  
+    <div>
+        <div class="tablePlaceHolder"></div>
+        <button type="button" id="refresh">Create New Game</button>
+    </div>
+</body>
+</html>
